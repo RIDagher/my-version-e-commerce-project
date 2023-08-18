@@ -3,6 +3,10 @@
 const express = require('express');
 const morgan = require('morgan');
 
+const {
+  getProducts,
+} = require("./handlers");
+
 const PORT = 4000;
 
 express()
@@ -24,6 +28,6 @@ express()
   .use('/', express.static(__dirname + '/'))
 
   // REST endpoints?
-  .get('/bacon', (req, res) => res.status(200).json('🥓'))
+  .get("/getProducts", getProducts)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));
