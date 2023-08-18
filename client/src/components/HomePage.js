@@ -29,6 +29,7 @@ function HomePage() {
           <>
             <p key={element._id}>{element.name}</p>
             <img src={element.imageSrc} />
+            <p>{element.price}</p>
           </>
         );
       })}
