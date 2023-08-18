@@ -1,15 +1,32 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Header from "./Header";
+import HomePage from "./HomePage";
+import styled from "styled-components";
 
 function App() {
-  const [bacon, setBacon] = useState(null);
 
   useEffect(() => {
-    fetch('/bacon')
-      .then(res => res.json())
-      .then(data => setBacon(data));
   }, []);
 
-  return <div>{bacon ? bacon : `...where's my stuff?...`}</div>;
+  return (
+
+    <BrowserRouter>
+
+      <Header />
+      <Wrapper>
+        <Routes>
+            <Route path="/" element={<HomePage />} />          
+        </Routes>   
+      </Wrapper>
+    </BrowserRouter>
+  )
+
 }
+
+const Wrapper = styled.div` 
+  display: flex;
+`;
+
 
 export default App;
