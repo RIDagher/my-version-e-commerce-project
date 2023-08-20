@@ -2,6 +2,9 @@ import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./Header";
 import HomePage from "./HomePage";
+import Cart from "./Cart";
+import Checkout from './Checkout';
+import Confirmation from './Confirmation';
 import styled from "styled-components";
 
 function App() {
@@ -16,7 +19,10 @@ function App() {
       <Header />
       <Wrapper>
         <Routes>
-            <Route path="/" element={<HomePage />} />          
+            <Route path="/" element={<HomePage />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/confirmation" element={<Confirmation />} />                   
         </Routes>   
       </Wrapper>
     </BrowserRouter>
