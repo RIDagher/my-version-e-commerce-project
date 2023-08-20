@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 function Cart() {
+
+  const navigate = useNavigate();
 
   useEffect(() => {
 
@@ -10,9 +13,17 @@ function Cart() {
   return (
     <Wrapper>
          Hello from Cart!
+         .. summary of items in cart       ..
+         .. need 'remove from cart' button ..
+         <CheckoutWrapper onClick={() => navigate("/checkout")}>checkout now!</CheckoutWrapper>
     </Wrapper>
   );
 }
+
+const CheckoutWrapper = styled.button`
+  margin: 10px;
+  cursor: pointer;
+`
 
 // const Price = styled.p`
 //   font-size: 20px;

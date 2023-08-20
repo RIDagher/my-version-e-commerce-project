@@ -9,7 +9,8 @@ function Confirmation() {
 
   return (
     <Wrapper>
-         Hello from Confirmation!
+        .. all being well ..
+        Order confirmed!
     </Wrapper>
   );
 }
