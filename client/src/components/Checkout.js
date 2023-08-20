@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import Form from "./Form";
 
 function Checkout() {
 
@@ -12,44 +13,60 @@ function Checkout() {
 
   return (
     <Wrapper>
-         Hello from Checkout!
-         .. there will be a form here with customer information ..
-         .. as well as the payment method (keep it simple) ..
-         <ConfirmWrapper onClick={() => navigate("/confirmation")}>Pay now!</ConfirmWrapper>
+         <Form />   
+         <ConfirmWrapper onClick={() => navigate("/confirmation")}>(Not working yet.. Simulate working Pay Now)</ConfirmWrapper>
     </Wrapper>
   );
 }
+
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+`;
+
+
 
 const ConfirmWrapper = styled.button`
   margin: 10px;
   cursor: pointer;
 `
-
-// const Price = styled.p`
-//   font-size: 20px;
-//   font-weight: bold;
-// `;
-
-// const Product = styled.div`
-//   border: solid 2px;
-//   display: flex;
-//   margin: 10px;
-//   max-width: 400px;
-//   flex-direction: column;
+// const FormWrapper = styled.div`
+//   /* display: flex;
 //   justify-content: center;
-//   text-align: center;
+//   align-items: center; */
 // `;
 
-// const Img = styled.img`
-//   width: 200px;
-//   height: 200px;
-//   padding-left: 100px;
+// const FormContainer = styled.form`
+//   width: 300px;
+//   padding: 20px;
+//   border: 1px solid #ccc;
+//   border-radius: 5px;
+//   background-color: #f9f9f9;
 // `;
 
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
-`;
+// const FormInput = styled.input`
+//   width: 100%;
+//   padding: 10px;
+//   margin-bottom: 10px;
+//   border: 1px solid #ccc;
+//   border-radius: 5px;
+// `;
+
+// const SubmitButton = styled.button`
+//   width: 100%;
+//   padding: 10px;
+//   background-color: #007bff;
+//   color: #fff;
+//   border: none;
+//   border-radius: 5px;
+//   transition: all ease 400ms;
+//   cursor: pointer;
+//   &:hover {
+//       background-color: lightblue;
+//     }
+// `;
 
 export default Checkout;
