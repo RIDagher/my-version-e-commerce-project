@@ -116,6 +116,7 @@ const Wrapper = styled.div`
     justify-content: space-between;
     background-color: lightblue;
     align-items: center;
+    flex-wrap: wrap;
 `;
 
 const CompanyName = styled.div`
