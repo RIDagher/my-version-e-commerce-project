@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import styled from "styled-components";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 function Header() {
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const categories = ["Fitness", "Lifestyle", "Entertainment", "Medical", 
   "Industrial" ]
 
@@ -19,14 +19,14 @@ function Header() {
 
   return (
     <Wrapper>
-      <CompanyName>
+      <CompanyName onClick={() => navigate("/")}>
         Our Name
       </CompanyName>
       <SortWrapper>
         <CategoryWrapper>
           {categories.map((element) => {
                 // return (
-                // <Category key={element} onClick={navigate(`/categories/${element.toLowerCase()}`)} >
+                // <Category key={element} onClick={() => navigate(`/categories/${element.toLowerCase()}`)} >
                 //     {element}
                 //   </Category>              
                 //);
@@ -39,7 +39,7 @@ function Header() {
         <BodyWrapper>
         {bodyLocations.map((element) => {
                 // return (
-                // <Category key={element} onClick={navigate(`/bodylocations/${element.toLowerCase()}`)} >
+                // <Category key={element} onClick={() => navigate(`/bodylocations/${element.toLowerCase()}`)} >
                 //     {element}
                 //   </Category>              
                 //);
@@ -50,9 +50,9 @@ function Header() {
           })}
         </BodyWrapper>
       </SortWrapper>
-      <CartWrapper>
-        CART
-      </CartWrapper>
+   
+      <CartWrapper onClick={() => navigate("/cart")}>cart</CartWrapper>
+     
     </Wrapper>
   )
 
@@ -60,6 +60,7 @@ function Header() {
 
 const CartWrapper = styled.button`
   margin: 10px;
+  cursor: pointer;
 `
 
 const SortWrapper = styled.div`
@@ -120,6 +121,7 @@ const Wrapper = styled.div`
 const CompanyName = styled.div`
   font-size: 40px;
   padding: 10px;
+  cursor: pointer;
 
 `
 

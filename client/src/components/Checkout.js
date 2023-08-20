@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 function Checkout() {
+
+  const navigate = useNavigate();  
 
   useEffect(() => {
 
@@ -10,9 +13,17 @@ function Checkout() {
   return (
     <Wrapper>
          Hello from Checkout!
+         .. there will be a form here with customer information ..
+         .. as well as the payment method (keep it simple) ..
+         <ConfirmWrapper onClick={() => navigate("/confirmation")}>Pay now!</ConfirmWrapper>
     </Wrapper>
   );
 }
+
+const ConfirmWrapper = styled.button`
+  margin: 10px;
+  cursor: pointer;
+`
 
 // const Price = styled.p`
 //   font-size: 20px;
