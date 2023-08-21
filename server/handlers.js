@@ -55,7 +55,39 @@ const getProduct = async (req, res) => {
   }
 };
 
+const addToCart = async (req, res)  => {
+// hello
+    const element = req.body;
+
+    console.log("element:", element);
+    
+    if ( !element ) {
+      return res.status(400).json({ status: 400, message: "Data not found" });
+    }
+    // let newUUID = uuidv4();   
+    let productToAdd = {
+        _id: element._id,        
+    };
+
+    const client = new MongoClient(MONGO_URI, options);
+    try {        
+        await client.connect();
+        const dbName = "ecommerce";
+        const db = client.db(dbName);
+        const result = await db.collection("users").insertOne( productToAdd );     
+        console.log("result:", result);   
+        client.close();       
+        return res.status(201).json({ status: 201, message: "success", result });   
+    
+    }    
+    catch (err) {
+       res.status(500).json({ status: 500, message: err.message });
+    }
+
+}
+
 module.exports = {
   getProducts,
   getProduct,
+  addToCart,
 };

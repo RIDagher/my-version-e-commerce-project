@@ -3,7 +3,7 @@
 const express = require("express");
 const morgan = require("morgan");
 
-const { getProducts, getProduct } = require("./handlers");
+const { getProducts, getProduct, addToCart } = require("./handlers");
 
 const PORT = 4000;
 
@@ -28,5 +28,6 @@ express()
   // REST endpoints?
   .get("/getProducts", getProducts)
   .get("/getProduct/:product", getProduct)
+  .post("/add-to-cart", addToCart) 
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));
