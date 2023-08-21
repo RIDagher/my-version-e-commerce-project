@@ -82,10 +82,11 @@ const addToCart = async (req, res)  => {
         console.log("_id", element.element._id);
         console.log("typeof:", typeof(element));
 
-        // await db.collection("users").update(
-        //   { _id: element.element._id },
-        //   { $inc: { numInStock: -1 } }
-        // )
+        // check for 0 stock
+        await db.collection("items").updateOne(
+          { _id: element.element._id },
+          { $inc: { numInStock: -1 } }
+        )
 
         console.log("result:", result);   
         client.close();       
@@ -129,7 +130,13 @@ const removeFromCart = async (req, res)  => {
       await client.connect();
       const dbName = "ecommerce";
       const db = client.db(dbName);
-      const result = await db.collection("users").deleteOne( element.element );     
+      const result = await db.collection("users").deleteOne( element.element );
+      
+      await db.collection("items").updateOne(
+        { _id: element.element._id },
+        { $inc: { numInStock: +1 } }
+      )
+
       console.log("result:", result);   
       client.close();       
       return res.status(201).json({ status: 201, message: "success", result });   
