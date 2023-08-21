@@ -24,33 +24,33 @@ function HomePage() {
     fetchProducts();
   }, []);
 
-   const handleCart = (element) => {
+   const handleCart = async (element) => {
     // update cart with {}
     console.log("id:", element._id);
     console.log("stock:", element.numInStock);
 
     // decrement the stock (put it on hold)  
-
     // add to database
-
-  //   const addToCart = async () => {
-  //     try {
-  //       const response = await fetch("/getProducts");
-  //       if (response.ok) {
-  //         const data = await response.json();
-  //         //setProducts(data.data);
-  //       } else {
-  //         console.error("Failed to add to cart:", response.statusText);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error adding to cart:", error);
-  //     }
-  //   };
-  //   addToCart();
-  // }, []);
-
-
-
+   
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({element})
+      };
+      try {
+        const response = await fetch("/add-to-cart");
+        if (response.ok) {
+          const data = await response.json();
+          //setProducts(data.data);
+          console.log("Product added successfully:", data);
+          // add .then etc.
+        } else {
+          console.error("Failed to add to cart:", response.statusText);
+        }
+      } catch (error) { 
+        console.error("Error adding to cart:", error);
+      }
+ 
   }
 
   return (
