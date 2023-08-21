@@ -3,9 +3,7 @@ import styled from "styled-components";
 
 function HomePage() {
   const [products, setProducts] = useState([]);
-
- 
-
+  
   useEffect(() => {
 
     const fetchProducts = async () => {
@@ -38,7 +36,7 @@ function HomePage() {
         body: JSON.stringify({element})
       };
       try {
-        const response = await fetch("/add-to-cart");
+        const response = await fetch("/add-to-cart", requestOptions);
         if (response.ok) {
           const data = await response.json();
           //setProducts(data.data);
