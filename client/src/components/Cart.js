@@ -28,15 +28,87 @@ function Cart() {
 
   }, []);
 
+
+  const handleCart = async (element) => {
+    // update cart with {}
+    console.log("id:", element._id);
+
+
+
+    console.log("stock:", element.numInStock);
+
+    // decrement the stock (put it on hold)  
+    // add to database
+   
+      const requestOptions = {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({element})
+      };
+      try {
+        const response = await fetch("/remove-from-cart", requestOptions);
+        if (response.ok) {
+          const data = await response.json();
+          //setProducts(data.data);
+          console.log("Product removed successfully:", data);
+          // add .then etc.
+        } else {
+          console.error("Failed to remove from cart:", response.statusText);
+        }
+      } catch (error) { 
+        console.error("Error removing from cart:", error);
+      }
+ 
+      window.location.reload(false);
+
+  }
+
   return (
     <Wrapper>
          <p>Your Cart</p>
          <p>.. summary of items in cart ..</p>
          <p>.. need 'remove from cart' button ..</p>
+
+         {cart.map((element) => {
+        return (
+          <Product key={element._id}>
+            <Img src={element.imageSrc}/>   
+            <RemoveFromCart onClick={ 
+                  () => handleCart(element) 
+              }>Remove item</RemoveFromCart>     
+          </Product>
+        );
+      })}
+
          <CheckoutWrapper onClick={() => navigate("/checkout")}>checkout now!</CheckoutWrapper>
     </Wrapper>
   );
 }
+
+const RemoveFromCart = styled.button`
+  background-color: blue;
+  color: white;
+  &:hover {
+      background-color: lightgoldenrodyellow;
+    }
+    cursor: pointer;
+`
+
+const Img = styled.img`
+  width: 200px;
+  height: 200px;
+  padding-left: 100px;
+`;
+
+const Product = styled.div`
+  border: solid 2px;
+  display: flex;
+  margin: 10px;
+  max-width: 400px;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+`;
 
 const CheckoutWrapper = styled.button`
   margin: 10px;
