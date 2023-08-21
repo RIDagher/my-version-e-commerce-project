@@ -4,8 +4,10 @@ import styled from "styled-components";
 function HomePage() {
   const [products, setProducts] = useState([]);
 
+ 
+
   useEffect(() => {
-    // TODO: GET all flight numbers
+
     const fetchProducts = async () => {
       try {
         const response = await fetch("/getProducts");
@@ -22,20 +24,66 @@ function HomePage() {
     fetchProducts();
   }, []);
 
+   const handleCart = (element) => {
+    // update cart with {}
+    console.log("id:", element._id);
+    console.log("stock:", element.numInStock);
+
+    // decrement the stock (put it on hold)  
+
+    // add to database
+
+  //   const addToCart = async () => {
+  //     try {
+  //       const response = await fetch("/getProducts");
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         //setProducts(data.data);
+  //       } else {
+  //         console.error("Failed to add to cart:", response.statusText);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error adding to cart:", error);
+  //     }
+  //   };
+  //   addToCart();
+  // }, []);
+
+
+
+  }
+
   return (
     <Wrapper>
       {products.map((element) => {
         return (
-          <Product>
-            <Img src={element.imageSrc} />
-            <p key={element._id}>{element.name}</p>
+          <Product key={element._id}>
+            <Img src={element.imageSrc}/>
+            <p>{element.name}</p>
             <Price>{element.price}</Price>
+    
+            {element.numInStock !== 0 ? 
+              <AddToCart onClick={ 
+                  () => handleCart(element) 
+              }>Add to cart</AddToCart> 
+                : 
+                null }
           </Product>
         );
       })}
     </Wrapper>
   );
 }
+
+const AddToCart = styled.button`
+  background-color: blue;
+  color: white;
+  &:hover {
+      background-color: lightgoldenrodyellow;
+    }
+    cursor: pointer;
+
+`
 
 const Price = styled.p`
   font-size: 20px;
