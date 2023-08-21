@@ -3,7 +3,7 @@
 const express = require("express");
 const morgan = require("morgan");
 
-const { getProducts, getProduct, addToCart, getCart } = require("./handlers");
+const { getProducts, getProduct, addToCart, getCart, removeFromCart } = require("./handlers");
 
 const PORT = 4000;
 
@@ -29,6 +29,7 @@ express()
   .get("/getProducts", getProducts)
   .get("/getProduct/:product", getProduct)
   .post("/add-to-cart", addToCart)
-  .get("/get-cart", getCart)  
+  .get("/get-cart", getCart)
+  .delete("/remove-from-cart", removeFromCart)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));

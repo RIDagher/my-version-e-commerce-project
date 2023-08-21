@@ -59,7 +59,7 @@ const addToCart = async (req, res)  => {
 // hello
     const element = req.body;
 
-    console.log("element:", element);
+    //console.log("element:", element);
     
     if ( !element ) {
       return res.status(400).json({ status: 400, message: "Data not found" });
@@ -75,7 +75,18 @@ const addToCart = async (req, res)  => {
         await client.connect();
         const dbName = "ecommerce";
         const db = client.db(dbName);
-        const result = await db.collection("users").insertOne( element.element );     
+        const result = await db.collection("users").insertOne( element.element );
+        // const currentStock = await db.collection("users").findOne({_id: element});
+
+        console.log("HELLO", element);
+        console.log("_id", element.element._id);
+        console.log("typeof:", typeof(element));
+
+        // await db.collection("users").update(
+        //   { _id: element.element._id },
+        //   { $inc: { numInStock: -1 } }
+        // )
+
         console.log("result:", result);   
         client.close();       
         return res.status(201).json({ status: 201, message: "success", result });   
@@ -104,10 +115,37 @@ const getCart = async (req, res)  => {
   }
 }
 
+const removeFromCart = async (req, res)  => {
+
+  const element = req.body;
+  console.log("element:", element);
+  
+  if ( !element ) {
+    return res.status(400).json({ status: 400, message: "Data not found" });
+  }
+
+  const client = new MongoClient(MONGO_URI, options);
+  try {        
+      await client.connect();
+      const dbName = "ecommerce";
+      const db = client.db(dbName);
+      const result = await db.collection("users").deleteOne( element.element );     
+      console.log("result:", result);   
+      client.close();       
+      return res.status(201).json({ status: 201, message: "success", result });   
+  
+  }    
+  catch (err) {
+     res.status(500).json({ status: 500, message: err.message });
+  }
+
+}
+
 
 module.exports = {
   getProducts,
   getProduct,
   addToCart,
   getCart,
+  removeFromCart,
 };
