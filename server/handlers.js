@@ -65,16 +65,17 @@ const addToCart = async (req, res)  => {
       return res.status(400).json({ status: 400, message: "Data not found" });
     }
     // let newUUID = uuidv4();   
-    let productToAdd = {
-        _id: element._id,        
-    };
+    // let productToAdd = {
+    //     element.element      
+    // };
+
 
     const client = new MongoClient(MONGO_URI, options);
     try {        
         await client.connect();
         const dbName = "ecommerce";
         const db = client.db(dbName);
-        const result = await db.collection("users").insertOne( productToAdd );     
+        const result = await db.collection("users").insertOne( element.element );     
         console.log("result:", result);   
         client.close();       
         return res.status(201).json({ status: 201, message: "success", result });   
@@ -86,8 +87,27 @@ const addToCart = async (req, res)  => {
 
 }
 
+
+const getCart = async (req, res)  => {
+  const client = new MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    const dbName = "ecommerce";
+    const db = client.db(dbName);
+    let result = await db.collection("users").find().toArray();
+    console.log(result);
+
+    client.close();
+    return res.status(200).json({ status: 200, data: result, message: "" });
+  } catch (err) {
+    res.status(500).json({ status: 500, message: err.message });
+  }
+}
+
+
 module.exports = {
   getProducts,
   getProduct,
   addToCart,
+  getCart,
 };
