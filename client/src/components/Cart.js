@@ -3,10 +3,13 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import CartAdjuster from "./CartAdjuster";
 
-function Cart() {
+
+  const Cart = () => {
 
   const [cart, setCart] = useState([]);
   const navigate = useNavigate();
+  const [refreshCart, setRefreshCart] = useState(true);
+
 
   useEffect(() => {
 
@@ -16,7 +19,7 @@ function Cart() {
         if (response.ok) {
           const data = await response.json();
           setCart(data.data);
-          //console.log("cartData:", data.data);
+          setRefreshCart(false);
         } else {
           console.error("Failed to fetch cart:", response.statusText);
         }
@@ -24,23 +27,15 @@ function Cart() {
         console.error("Error fetching cart:", error);
       }
     };
-    fetchCart();
+    if (refreshCart) {
+      fetchCart();
+    }
 
-
-  }, [cart]);
+  }, [refreshCart]);
 
 
   const handleCart = async (element) => {
-    // update cart with {}
-    console.log("id:", element._id);
-
-
-
-    console.log("stock:", element.numInStock);
-
-    // decrement the stock (put it on hold)  
-    // add to database
-   
+  
       const requestOptions = {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
@@ -51,6 +46,7 @@ function Cart() {
         if (response.ok) {
           const data = await response.json();
           console.log("Product removed successfully:", data);
+          setRefreshCart(true);
         } else {
           console.error("Failed to remove from cart:", response.statusText);
         }
@@ -58,7 +54,7 @@ function Cart() {
         console.error("Error removing from cart:", error);
       }
  
-   
+      
 
   }
   return (
@@ -81,23 +77,6 @@ function Cart() {
       )}
     </Wrapper>
   );
-  // return (
-  //   <Wrapper>         
-  //     <p>Cart Empty.</p>
-  //     <p>Your Cart</p>   
-  //     {cart.map((element) => {
-  //       return (
-  //         <Product key={element._id}>
-  //         <Img src={element.imageSrc}/>   
-  //         <RemoveFromCart onClick={ 
-  //           () => handleCart(element) 
-  //         }>Remove item</RemoveFromCart>     
-  //         </Product>
-  //       );
-  //     })}
-  //     <CheckoutWrapper onClick={() => navigate("/checkout")}>checkout now!</CheckoutWrapper>
-  //   </Wrapper>
-  // );
 
 }
 
