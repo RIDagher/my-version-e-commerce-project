@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import CartAdjuster from "./CartAdjuster";
 
 function Cart() {
 
@@ -70,7 +71,8 @@ function Cart() {
           {cart.map((element) => (
             <Product key={element._id}>
               <Img src={element.imageSrc}/>   
-              <RemoveFromCart onClick={() => handleCart(element)}>Remove item</RemoveFromCart>     
+              {/* <RemoveFromCart onClick={() => handleCart(element)}>Remove item</RemoveFromCart> */}
+              <CartAdjuster message={"Adjust Cart"}/>     
             </Product>
           ))}
           <CheckoutWrapper onClick={() => navigate("/checkout")}>checkout now!</CheckoutWrapper>
