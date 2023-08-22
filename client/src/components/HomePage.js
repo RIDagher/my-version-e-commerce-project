@@ -57,7 +57,7 @@ function HomePage() {
             <Img src={element.imageSrc} />
             <p>{element.name}</p>
             <Price>{element.price}</Price>
-
+            <Stock>{element.numInStock} left in stock!</Stock>
             {element.numInStock !== 0 ? (
               <AddToCart onClick={() => handleCart(element)}>
                 Add to cart
@@ -79,6 +79,10 @@ const AddToCart = styled.button`
   cursor: pointer;
 `;
 
+const Stock = styled.p`
+  font-size: 12px;
+`
+
 const Price = styled.p`
   font-size: 20px;
   font-weight: bold;
@@ -96,7 +100,7 @@ const Product = styled.div`
 `;
 
 const Img = styled.img`
-  width: 200px;
+  /* width: 200px; */
   height: 200px;
   display: block;
   margin-left: auto;
