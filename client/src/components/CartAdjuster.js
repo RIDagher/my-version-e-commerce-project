@@ -3,22 +3,126 @@ import styled from "styled-components";
 
 const CartAdjuster = (message, element) => {
 
-  const [formData, setFormData] = useState({});
-  const [submitted, setSubmitted] = useState(false);
+  const currentItem = message.element
 
-console.log("message:", message);
-console.log("element:", message.element);
-const currentItem = message.element;
+  // handle plus and minus buttons
+  const handleDecrement = () => {
+    // if the cart is at 1, do nothing
+    // else handle Remove Item
+    console.log("decreasing...")
+    currentItem.numInCart !== 1 ? handleRemoveItem() : cartMinimum();    
+  }
 
-const handleDecrement = () => {
-  // hello
-  console.log("currentStock of", currentItem.name, "is", currentItem.numInStock);
-}
+  const handleIncrement = () => {
+    // if there's no stock, don't add.
+    // else handle Add Item
+    console.log("increasing...");
+    currentItem.numInStock !== 0 ? handleAddItem() : noStock();
+  }
 
-const handleIncrement = () => {
-  // hello
-  console.log("currentStock of", currentItem.name, "is", currentItem.numInStock);
-}
+  // handle db updates
+  const handleAddItem = async (element) => {
+    // add item to Cart
+    // db: users collection: this item's numInCart +1
+    // db: items collection: this item's numInStock -1
+    // 
+    // new endpoint /update-cart/increment
+    // will update both
+
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({element})
+    };
+    try {
+      const response = await fetch("/update-cart/increment", requestOptions);
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Cart updated successfully:", data);
+        // setRefreshCart(true);
+      } else {
+        console.error("Failed to update cart", response.statusText);
+      }
+    } catch (error) { 
+      console.error("Error updating cart:", error);
+    }
+
+      // might need to set this up like Cart to make it refresh
+  }
+
+  const handleRemoveItem = () => {
+    // remove item from Cart
+    // db: users collection: this item's numInCart -1
+    // db: items collection: this item's numInStock + 1
+    //
+    // new endpoint /update-cart/decrement
+    // this will update both 
+  }
+
+  const noStock = () => {
+    // display message "No more of this item in stock"
+  }
+
+  const cartMinimum = () => {
+  // display message "Use Remove from Cart if you wish to remove the item".
+  }
+
+  // Q: how can I use the same new endpoint, /update-cart
+  // to perform both +1 and -1 to cart?
+  // what if it was /update-cart/:type
+  // type = "increment" or "decrement"
+
+  // to add
+  // in index.js, new REST endpoint:
+  // .post("/update-cart/:type", updateCart)
+  // and
+  // exports = .. updateUser
+
+  // in handlers.js, new function:
+  // const updateCart = async (req, res) => { 
+  //  const type = useParams();
+  //  const element = req.body;
+  //   if (!element) {  
+  //     return res.status(400).json({ status: 400, message: "Data not found" });
+  //   }
+  //   const client = new MongoClient(MONGO_URI, options);
+  //   try {
+  //     await client.connect();
+  //     const dbName = "ecommerce";
+  //     const db = client.db(dbName);
+      
+  //     switch(type) {
+  //       case "increment":
+  //         // code block
+  //         await db
+  //         .collection("users")
+  //         .updateOne({ _id: element.element._id }, { $inc: { numInCart: +1 } });
+          
+  //         await db
+  //         .collection("items")
+  //         .updateOne({ _id: element.element._id }, { $inc: { numInStock: -1 } });
+  //         break;
+  //       case "decrement":
+  //         // code block
+  //         await db
+  //         .collection("users")
+  //         .updateOne({ _id: element.element._id }, { $inc: { numInCart: -1 } });
+          
+  //         await db
+  //         .collection("items")
+  //         .updateOne({ _id: element.element._id }, { $inc: { numInStock: +1 } });
+  //         break;
+  //       default:
+  //         // code block
+  //     }
+           
+      
+  //     client.close();
+  //     return res.status(201).json({ status: 201, message: "success", result });
+  //   } catch (err) {
+  //     res.status(500).json({ status: 500, message: err.message });
+  //   }
+  // };
 
   useEffect(() => {
 
@@ -26,7 +130,7 @@ const handleIncrement = () => {
 
   return (
     <>
-        {/* this amount will be dynamic also */}
+    {/* this amount will be dynamic also */}
     <Message>Amount in Cart: 1</Message>   
     <Wrapper>              
         <Button onClick={handleDecrement}>-</Button>        
@@ -56,45 +160,5 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-
-// const ConfirmWrapper = styled.button`
-//   margin: 10px;
-//   cursor: pointer;
-// `
-// const FormWrapper = styled.div`
-//   /* display: flex;
-//   justify-content: center;
-//   align-items: center; */
-// `;
-
-// const FormContainer = styled.form`
-//   width: 300px;
-//   padding: 20px;
-//   border: 1px solid #ccc;
-//   border-radius: 5px;
-//   background-color: #f9f9f9;
-// `;
-
-// const FormInput = styled.input`
-//   width: 100%;
-//   padding: 10px;
-//   margin-bottom: 10px;
-//   border: 1px solid #ccc;
-//   border-radius: 5px;
-// `;
-
-// const SubmitButton = styled.button`
-//   width: 100%;
-//   padding: 10px;
-//   background-color: #007bff;
-//   color: #fff;
-//   border: none;
-//   border-radius: 5px;
-//   transition: all ease 400ms;
-//   cursor: pointer;
-//   &:hover {
-//       background-color: lightblue;
-//     }
-// `;
 
 export default CartAdjuster;
