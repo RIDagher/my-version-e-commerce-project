@@ -10,7 +10,7 @@ const Form = ({onSubmit}) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("e:", e);
+    //console.log("e:", e);
     const formData = {
       name,
       address,

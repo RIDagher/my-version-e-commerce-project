@@ -10,7 +10,7 @@ const Checkout = () => {
     
   const handleFormSubmit = (data) => {
     setFormData(data);
-    console.log("formData:", data);
+    //console.log("formData:", data);
     setSubmitted(true);
   };
 
