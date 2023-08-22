@@ -60,25 +60,42 @@ function Cart() {
       window.location.reload(false);
 
   }
-
   return (
-    <Wrapper>
-         <p>Your Cart</p>
-   
-         {cart.map((element) => {
-        return (
-          <Product key={element._id}>
-            <Img src={element.imageSrc}/>   
-            <RemoveFromCart onClick={ 
-                  () => handleCart(element) 
-              }>Remove item</RemoveFromCart>     
-          </Product>
-        );
-      })}
-
-         <CheckoutWrapper onClick={() => navigate("/checkout")}>checkout now!</CheckoutWrapper>
+    <Wrapper>         
+      {cart.length === 0 ? (
+        <p>Cart Empty.</p>
+      ) : (
+        <>
+          <p>Your Cart</p>   
+          {cart.map((element) => (
+            <Product key={element._id}>
+              <Img src={element.imageSrc}/>   
+              <RemoveFromCart onClick={() => handleCart(element)}>Remove item</RemoveFromCart>     
+            </Product>
+          ))}
+          <CheckoutWrapper onClick={() => navigate("/checkout")}>checkout now!</CheckoutWrapper>
+        </>
+      )}
     </Wrapper>
   );
+  // return (
+  //   <Wrapper>         
+  //     <p>Cart Empty.</p>
+  //     <p>Your Cart</p>   
+  //     {cart.map((element) => {
+  //       return (
+  //         <Product key={element._id}>
+  //         <Img src={element.imageSrc}/>   
+  //         <RemoveFromCart onClick={ 
+  //           () => handleCart(element) 
+  //         }>Remove item</RemoveFromCart>     
+  //         </Product>
+  //       );
+  //     })}
+  //     <CheckoutWrapper onClick={() => navigate("/checkout")}>checkout now!</CheckoutWrapper>
+  //   </Wrapper>
+  // );
+
 }
 
 const RemoveFromCart = styled.button`
