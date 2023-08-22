@@ -27,7 +27,7 @@ function Cart() {
     fetchCart();
 
 
-  }, []);
+  }, [cart]);
 
 
   const handleCart = async (element) => {
@@ -58,7 +58,7 @@ function Cart() {
         console.error("Error removing from cart:", error);
       }
  
-      window.location.reload(false);
+   
 
   }
   return (
