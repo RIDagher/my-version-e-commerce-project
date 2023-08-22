@@ -10,6 +10,7 @@ const {
   getCart,
   removeFromCart,
   getProductByCategory,
+  getProductByBodyLocation,
 } = require("./handlers");
 
 const PORT = 4000;
@@ -41,5 +42,6 @@ express()
   .delete("/remove-from-cart", removeFromCart)
 
   .get("/categories/:category", getProductByCategory)
+  .get("/bodyLocation/:body_location", getProductByBodyLocation)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));
