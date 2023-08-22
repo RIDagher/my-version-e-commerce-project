@@ -71,8 +71,9 @@ function Cart() {
           {cart.map((element) => (
             <Product key={element._id}>
               <Img src={element.imageSrc}/>   
-              {/* <RemoveFromCart onClick={() => handleCart(element)}>Remove item</RemoveFromCart> */}
-              <CartAdjuster message={"Adjust Cart"}/>     
+              
+              <CartAdjuster message={"Adjust Cart"} element={element}/>  
+              <RemoveFromCart onClick={() => handleCart(element)}>Remove from Cart</RemoveFromCart>   
             </Product>
           ))}
           <CheckoutWrapper onClick={() => navigate("/checkout")}>checkout now!</CheckoutWrapper>

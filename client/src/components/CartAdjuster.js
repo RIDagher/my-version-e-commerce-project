@@ -1,12 +1,24 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-const CartAdjuster = (message) => {
+const CartAdjuster = (message, element) => {
 
   const [formData, setFormData] = useState({});
   const [submitted, setSubmitted] = useState(false);
 
 console.log("message:", message);
+console.log("element:", message.element);
+const currentItem = message.element;
+
+const handleDecrement = () => {
+  // hello
+  console.log("currentStock of", currentItem.name, "is", currentItem.numInStock);
+}
+
+const handleIncrement = () => {
+  // hello
+  console.log("currentStock of", currentItem.name, "is", currentItem.numInStock);
+}
 
   useEffect(() => {
 
@@ -17,9 +29,9 @@ console.log("message:", message);
         {/* this amount will be dynamic also */}
     <Message>Amount in Cart: 1</Message>   
     <Wrapper>              
-        <Button>-</Button>        
+        <Button onClick={handleDecrement}>-</Button>        
         <Message>{message.message}</Message>
-        <Button>+</Button>
+        <Button onClick={handleIncrement}>+</Button>
     </Wrapper>
     </>
   );
