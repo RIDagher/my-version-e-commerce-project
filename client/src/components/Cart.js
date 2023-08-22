@@ -15,7 +15,7 @@ function Cart() {
         if (response.ok) {
           const data = await response.json();
           setCart(data.data);
-          console.log("cartData:", data.data);
+          //console.log("cartData:", data.data);
         } else {
           console.error("Failed to fetch cart:", response.statusText);
         }
@@ -49,9 +49,7 @@ function Cart() {
         const response = await fetch("/remove-from-cart", requestOptions);
         if (response.ok) {
           const data = await response.json();
-          //setProducts(data.data);
           console.log("Product removed successfully:", data);
-          // add .then etc.
         } else {
           console.error("Failed to remove from cart:", response.statusText);
         }
@@ -66,9 +64,7 @@ function Cart() {
   return (
     <Wrapper>
          <p>Your Cart</p>
-         <p>.. summary of items in cart ..</p>
-         <p>.. need 'remove from cart' button ..</p>
-
+   
          {cart.map((element) => {
         return (
           <Product key={element._id}>
