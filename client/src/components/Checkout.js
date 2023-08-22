@@ -1,24 +1,35 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 import Form from "./Form";
+import Confirmation from "./Confirmation";
 
-function Checkout() {
+const Checkout = () => {
 
-  const navigate = useNavigate();  
+  const [formData, setFormData] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+    
+  const handleFormSubmit = (data) => {
+    setFormData(data);
+    console.log("formData:", data);
+    setSubmitted(true);
+  };
+
+
 
   useEffect(() => {
 
   }, []);
 
   return (
-    <Wrapper>
-         <Form />   
-         <ConfirmWrapper onClick={() => navigate("/confirmation")}>(Not working yet.. Simulate working Pay Now)</ConfirmWrapper>
+    <Wrapper>         
+         {!submitted ? (
+        <Form onSubmit={handleFormSubmit} />
+          ) : (
+        <Confirmation formData={formData} />
+          )}
     </Wrapper>
   );
 }
-
 
 const Wrapper = styled.div`
   display: flex;
@@ -28,11 +39,10 @@ const Wrapper = styled.div`
 `;
 
 
-
-const ConfirmWrapper = styled.button`
-  margin: 10px;
-  cursor: pointer;
-`
+// const ConfirmWrapper = styled.button`
+//   margin: 10px;
+//   cursor: pointer;
+// `
 // const FormWrapper = styled.div`
 //   /* display: flex;
 //   justify-content: center;

@@ -1,15 +1,53 @@
 import styled from "styled-components";
+import { useState } from "react";
 
-const Form = () => {
+const Form = ({onSubmit}) => {
 
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [email, setEmail] = useState("");
+  const [creditCard, setCreditCard] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("e:", e);
+    const formData = {
+      name,
+      address,
+      email,
+      creditCard,
+    };
+    onSubmit(formData);
+  };
 
     return (
       <FormWrapper>
-        <FormContainer>
+        <FormContainer onSubmit={handleSubmit}>
           <h2>Please enter your information</h2>
-          <FormInput type="text" required placeholder="Name" />
-          <FormInput type="text" required placeholder="Address" />
-          <FormInput type="email" required placeholder="Email" />
+          <FormInput
+            type="text"
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <FormInput
+            type="text"
+            placeholder="Address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+          <FormInput
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <FormInput
+            type="text"
+            placeholder="Credit Card #"
+            value={creditCard}
+            onChange={(e) => setCreditCard(e.target.value)}
+          />
           <SubmitButton type="submit">Pay Now</SubmitButton>
         </FormContainer>
       </FormWrapper>
