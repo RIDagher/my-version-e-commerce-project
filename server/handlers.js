@@ -174,6 +174,43 @@ const getProductByCategory = async (req, res) => {
   }
 };
 
+const getProductByBodyLocation = async (req, res) => {
+  const { body_location } = req.params;
+
+  const client = new MongoClient(MONGO_URI, options);
+  const upperCase =
+    body_location.charAt(0).toUpperCase() + body_location.slice(1);
+
+  try {
+    await client.connect();
+    console.log("connected!");
+
+    const dbName = "ecommerce";
+    const db = client.db(dbName);
+    const productData = await db
+      .collection("items")
+      .find({ body_location: upperCase })
+      .toArray();
+
+    if (productData) {
+      return res
+        .status(200)
+        .json({ status: 200, data: productData, message: "success" });
+    } else {
+      return res
+        .status(404)
+        .json({ status: 404, message: "Product not found" });
+      // console.log("error fetching product ");
+    }
+  } catch (error) {
+    // console.log("Error", error);
+    res.status(500).json({ status: 500, message: err.message });
+  } finally {
+    client.close();
+    console.log("disconnected!");
+  }
+};
+
 module.exports = {
   getProducts,
   getProduct,
@@ -181,4 +218,5 @@ module.exports = {
   getCart,
   removeFromCart,
   getProductByCategory,
+  getProductByBodyLocation,
 };
