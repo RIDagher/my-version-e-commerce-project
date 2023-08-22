@@ -1,72 +1,78 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-
 function Header() {
-
   const navigate = useNavigate();
-  const categories = ["Fitness", "Lifestyle", "Entertainment", "Medical", 
-  "Industrial" ]
+  const categories = [
+    "Fitness",
+    "Lifestyle",
+    "Entertainment",
+    "Medical",
+    "Industrial",
+  ];
 
-  const bodyLocations = ["Wrist", "Arms", "Head", "Chest", "Hands", "Neck", "Waist", "Torso" ]
+  const bodyLocations = [
+    "Wrist",
+    "Arms",
+    "Head",
+    "Chest",
+    "Hands",
+    "Neck",
+    "Waist",
+    "Torso",
+  ];
 
-
-  useEffect(() => {
-     
-
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <Wrapper>
-      <CompanyName onClick={() => navigate("/")}>
-        Our Name
-      </CompanyName>
+      <CompanyName onClick={() => navigate("/")}>Our Name</CompanyName>
       <SortWrapper>
         <CategoryWrapper>
           {categories.map((element) => {
-                // return (
-                // <Category key={element} onClick={() => navigate(`/categories/${element.toLowerCase()}`)} >
-                //     {element}
-                //   </Category>              
-                //);
-                // for this, need endpoint /categories/:category
-                // where :category is "fitness", "lifestyle", "entertainment", "medical" or "industrial"
-              return (<Category key={element}>{element}</Category>);
-        
+            return (
+              <Category
+                key={element}
+                onClick={() => navigate(`/categories/${element.toLowerCase()}`)}
+              >
+                {element}
+              </Category>
+              //);
+              // for this, need endpoint /categories/:category
+              // where :category is "fitness", "lifestyle", "entertainment", "medical" or "industrial"
+              // return <Category key={element}>{element}</Category>;
+            );
           })}
         </CategoryWrapper>
         <BodyWrapper>
-        {bodyLocations.map((element) => {
-                // return (
-                // <Category key={element} onClick={() => navigate(`/bodylocations/${element.toLowerCase()}`)} >
-                //     {element}
-                //   </Category>              
-                //);
-                // for this, need endpoint /bodylocations/:bodylocation
-                // where :bodylocation is "Wrist", "Arms", "Head", "Chest", "Hands", "Neck", "Waist", "Torso""
-              return (<BodyType key={element}>{element}</BodyType>);
-        
+          {bodyLocations.map((element) => {
+            // return (
+            // <Category key={element} onClick={() => navigate(`/bodylocations/${element.toLowerCase()}`)} >
+            //     {element}
+            //   </Category>
+            //);
+            // for this, need endpoint /bodylocations/:bodylocation
+            // where :bodylocation is "Wrist", "Arms", "Head", "Chest", "Hands", "Neck", "Waist", "Torso""
+            return <BodyType key={element}>{element}</BodyType>;
           })}
         </BodyWrapper>
       </SortWrapper>
-   
-      <CartWrapper onClick={() => navigate("/cart")}>cart</CartWrapper>
-     
-    </Wrapper>
-  )
 
+      <CartWrapper onClick={() => navigate("/cart")}>cart</CartWrapper>
+    </Wrapper>
+  );
 }
 
 const CartWrapper = styled.button`
   margin: 10px;
   cursor: pointer;
-`
+`;
 
 const SortWrapper = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
 
 const CategoryWrapper = styled.div`
   display: flex;
@@ -74,7 +80,7 @@ const CategoryWrapper = styled.div`
   justify-content: space-evenly;
   align-items: center;
   flex-wrap: wrap;
-`
+`;
 
 const BodyWrapper = styled.div`
   display: flex;
@@ -82,7 +88,7 @@ const BodyWrapper = styled.div`
   justify-content: space-evenly;
   align-items: center;
   flex-wrap: wrap;
-`
+`;
 
 const Category = styled.button`
   background-color: blue;
@@ -92,10 +98,10 @@ const Category = styled.button`
   transition: all ease 400ms;
   cursor: pointer;
   margin: 5px;
-    &:hover {
-      background-color: lightblue;
-    }
-`
+  &:hover {
+    background-color: lightblue;
+  }
+`;
 
 const BodyType = styled.button`
   background-color: red;
@@ -105,25 +111,24 @@ const BodyType = styled.button`
   transition: all ease 400ms;
   cursor: pointer;
   margin: 5px;
-    &:hover {
-      background-color: lightgoldenrodyellow;
-    }
-`
+  &:hover {
+    background-color: lightgoldenrodyellow;
+  }
+`;
 
-const Wrapper = styled.div` 
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    background-color: lightblue;
-    align-items: center;
-    flex-wrap: wrap;
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: lightblue;
+  align-items: center;
+  flex-wrap: wrap;
 `;
 
 const CompanyName = styled.div`
   font-size: 40px;
   padding: 10px;
   cursor: pointer;
-
-`
+`;
 
 export default Header;

@@ -1,24 +1,30 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
-function HomePage() {
-  const [products, setProducts] = useState([]);
+const Category = () => {
+  const [currentCategory, setCurrentCategory] = useState([]);
+  const category = useParams();
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchCategory = async () => {
       try {
-        const response = await fetch("/getProducts");
+        console.log(category.category);
+
+        const response = await fetch(`/categories/${category.category}`);
+        console.log("hello from category", response);
         if (response.ok) {
           const data = await response.json();
-          setProducts(data.data);
+          setCurrentCategory(data.data);
+          console.log(data.data);
         } else {
-          console.error("Failed to fetch products]:", response.statusText);
+          console.error("Failed to fetch categories:", response.statusText);
         }
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching categories:", error);
       }
     };
-    fetchProducts();
+    fetchCategory();
   }, []);
 
   const handleCart = async (element) => {
@@ -51,7 +57,7 @@ function HomePage() {
 
   return (
     <Wrapper>
-      {products.map((element) => {
+      {currentCategory.map((element) => {
         return (
           <Product key={element._id}>
             <Img src={element.imageSrc} />
@@ -68,7 +74,7 @@ function HomePage() {
       })}
     </Wrapper>
   );
-}
+};
 
 const AddToCart = styled.button`
   background-color: blue;
@@ -113,4 +119,4 @@ const Wrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-export default HomePage;
+export default Category;
