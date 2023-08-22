@@ -25,7 +25,7 @@ const Category = () => {
       }
     };
     fetchCategory();
-  }, []);
+  }, [category.category]);
 
   const handleCart = async (element) => {
     // update cart with {}
