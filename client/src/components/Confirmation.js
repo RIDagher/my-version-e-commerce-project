@@ -1,16 +1,25 @@
 import { useEffect } from "react";
 import styled from "styled-components";
 
-function Confirmation() {
-
+const Confirmation = ({formData}) => {
   useEffect(() => {
+    // need to clear the cart
+    // endpoint needed
 
   }, []);
 
   return (
     <Wrapper>
-        <p>.. all being well ..</p>
-        <p><b>Order confirmed!</b></p>
+        {formData.name &&
+        <>
+        <p>Your order is confirmed!</p>
+        <p>It will be shipped to:</p>
+        <p>{formData.name}</p>
+        <p>{formData.address}</p>
+        <p>{formData.email}</p>
+        </>
+        }
+        
     </Wrapper>
   );
 }
