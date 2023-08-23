@@ -53,7 +53,6 @@ const Cart = () => {
         <p>Cart Empty.</p>
       ) : (
         <Wrapper>
-          <YourCart>Your Cart</YourCart>
           {cart.map((element) => (
             <Product key={element._id}>
               <Img src={element.imageSrc} />
@@ -63,10 +62,11 @@ const Cart = () => {
                 <Text>{element.body_location}</Text>
                 <Text>{element.price}</Text>
               </DivText>
-              <CartAdjuster message={"Adjust Cart"} element={element} />
+             
               <RemoveFromCart onClick={() => handleCart(element)}>
                 Remove from Cart
               </RemoveFromCart>
+              <CartAdjuster message={"Adjust Cart"} element={element} />
             </Product>
           ))}
         </Wrapper>
@@ -94,7 +94,7 @@ const RemoveFromCart = styled.button`
   background-color: blue;
   color: white;
   &:hover {
-    background-color: lightgoldenrodyellow;
+    background-color: lightblue;
   }
   cursor: pointer;
 `;
