@@ -51,17 +51,23 @@ const Confirmation = ({formData}) => {
     <Wrapper>
         {formData.name &&
         <>
-        <p>Your order is confirmed!</p>
-        <p>It will be shipped to:</p>
-        <p>{formData.name}</p>
-        <p>{formData.address}</p>
-        <p>{formData.email}</p>
+        <ItemName>Your order is confirmed!</ItemName>
+        <ItemName>It will be shipped to:</ItemName>
+        <ItemName>{formData.name}</ItemName>
+        <ItemName>{formData.address}</ItemName>
+        <ItemName>{formData.email}</ItemName>
         </>
         }
         
     </Wrapper>
   );
 }
+
+const ItemName = styled.div`
+  font-family: 'Righteous', cursive;
+  font-size: 14px;
+  padding-top: 10px;
+`
 
 const Wrapper = styled.div`
   display: flex;
