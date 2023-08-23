@@ -211,6 +211,84 @@ const getProductByBodyLocation = async (req, res) => {
   }
 };
 
+
+const updateCart = async (req, res) => {
+  //console.log("req.body.type:", req.body.type);
+  const type = req.body.type; // for testing
+  const element = req.body;
+
+  if (!element) {
+    return res.status(400).json({ status: 400, message: "Data not found" });
+  }
+
+  try {
+    const client = new MongoClient(MONGO_URI, options);
+    await client.connect();
+    const dbName = "ecommerce";
+    const db = client.db(dbName);
+
+    switch (type) {
+      case "increment":
+        console.log("HELLO from increment");
+        console.log("element:", element);
+        try {
+          const incrementUsersResult = await db
+            .collection("users")
+            .updateOne({ _id: element.currentItem._id }, { $inc: { numInCart: +1 } });
+
+          const incrementItemsResult = await db
+            .collection("items")
+            .updateOne({ _id: element.currentItem._id }, { $inc: { numInStock: -1 } });
+
+          console.log("res:", incrementItemsResult);
+
+          if (incrementUsersResult.modifiedCount === 1 && incrementItemsResult.modifiedCount === 1) {
+            return res.status(200).json({ status: 200, message: "Cart updated successfully" });
+          } else {
+            return res.status(404).json({ status: 404, message: "Product not found or update failed" });
+          }
+        } catch (error) {
+          console.error("Error in increment case:", error);
+          return res.status(500).json({ status: 500, message: "Internal server error" });
+        }
+        break;
+
+      case "decrement":
+        console.log("HELLO from decrement");
+        console.log("element:", element);
+        
+        try {
+          const decrementUsersResult = await db
+            .collection("users")
+            .updateOne({ _id: element.currentItem._id }, { $inc: { numInCart: -1 } });
+
+          const decrementItemsResult = await db
+            .collection("items")
+            .updateOne({ _id: element.currentItem._id }, { $inc: { numInStock: +1 } });
+
+          if (decrementUsersResult.modifiedCount === 1 && decrementItemsResult.modifiedCount === 1) {
+            return res.status(200).json({ status: 200, message: "Cart updated successfully" });
+          } else {
+            return res.status(404).json({ status: 404, message: "Product not found or update failed" });
+          }
+        } catch (error) {
+          console.error("Error in decrement case:", error);
+          return res.status(500).json({ status: 500, message: "Internal server error" });
+        }
+        break;
+
+      default:
+        
+        break;
+    }
+
+    client.close();
+  } catch (err) {
+    console.error("Top-level error:", err);
+    return res.status(500).json({ status: 500, message: "Internal server error" });
+  }
+};
+
 module.exports = {
   getProducts,
   getProduct,
@@ -219,4 +297,5 @@ module.exports = {
   removeFromCart,
   getProductByCategory,
   getProductByBodyLocation,
+  updateCart,
 };
