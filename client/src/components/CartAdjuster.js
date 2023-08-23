@@ -5,7 +5,6 @@ const CartAdjuster = (message, element) => {
 
   const [currentItem, setCurrentItem] = useState([]);
   const [howManyInCart, setHowManyInCart] = useState("");
-  //const currentItem = message.element;
   
   useEffect(() => {
     setCurrentItem(message.element);
@@ -14,17 +13,14 @@ const CartAdjuster = (message, element) => {
 
   // handle plus and minus buttons
   const handleDecrement = (currentItem) => {
-    // if the cart is at 1, do nothing
-    // else handle Remove Item
-    console.log("decreasing...")
+    // if the cart is at 1, do nothing, else handle Remove Item
     currentItem.numInCart !== 1 ? handleRemoveItem(currentItem) : cartMinimum();    
   }
 
   const handleIncrement = (currentItem) => {
-    // if there's no stock, don't add.
-    // else handle Add Item
-    console.log("handleIncrement, currentItem:", currentItem);
-    console.log("increasing...");
+    // if there's no stock, don't add, else handle Add Item
+    // console.log("handleIncrement, currentItem:", currentItem);
+    // console.log("increasing...");
     currentItem.numInStock !== 0 ? handleAddItem(currentItem) : noStock();
   }
 
@@ -79,7 +75,7 @@ const CartAdjuster = (message, element) => {
       console.log("response:", response);
       if (response.ok) {
         const data = await response.json();
-        console.log("Cart decremented successfully:", data);
+        // console.log("Cart decremented successfully:", data);
         // setRefreshCart(true);
       } else {
         console.error("Failed to decrement cart", response.statusText);
@@ -93,10 +89,12 @@ const CartAdjuster = (message, element) => {
   }
 
   const noStock = () => {
+    // just for demo
     console.log("No more of this item in stock!");
   }
 
   const cartMinimum = () => {
+  // just for demo  
   console.log("Use Remove from Cart if you wish to remove the item!");
     
 }
@@ -108,8 +106,6 @@ const CartAdjuster = (message, element) => {
 
   return (
     <>
-    {/* this amount will be dynamic also */}
-    {/* <Message>{currentItem.numInCart} in cart.</Message>    */}
     <Wrapper>              
         <Button onClick={() => handleDecrement(currentItem)}>-</Button>        
         <Message>{currentItem.numInCart} in cart.</Message>
