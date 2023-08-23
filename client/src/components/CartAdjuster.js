@@ -109,10 +109,10 @@ const CartAdjuster = (message, element) => {
   return (
     <>
     {/* this amount will be dynamic also */}
-    <Message>{currentItem.numInCart} in cart.</Message>   
+    {/* <Message>{currentItem.numInCart} in cart.</Message>    */}
     <Wrapper>              
         <Button onClick={() => handleDecrement(currentItem)}>-</Button>        
-        <Message>{message.message}</Message>
+        <Message>{currentItem.numInCart} in cart.</Message>
         <Button onClick={() => handleIncrement(currentItem)}>+</Button>
     </Wrapper>
     </>
@@ -124,6 +124,10 @@ const Button = styled.button`
     color: white;
     padding: 10px;
     cursor: pointer;
+    &:hover {
+    background-color: lightblue;
+    transition: all ease 400ms;
+  }
 `
 
 const Message = styled.div`

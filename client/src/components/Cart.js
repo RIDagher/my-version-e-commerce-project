@@ -38,7 +38,7 @@ const Cart = () => {
       const response = await fetch("/remove-from-cart", requestOptions);
       if (response.ok) {
         const data = await response.json();
-        console.log("Product removed successfully:", data);
+        //console.log("Product removed successfully:", data);
         setRefreshCart(true);
       } else {
         console.error("Failed to remove from cart:", response.statusText);
@@ -49,12 +49,13 @@ const Cart = () => {
   };
   return (
     <div>
-      {cart.length === 0 ? (
-        <p>Cart Empty.</p>
-      ) : (
-        <Wrapper>
-          {cart.map((element) => (
-            <Product key={element._id}>
+    {cart.length === 0 ? (
+      <p>Cart Empty.</p>
+    ) : (
+      <Wrapper>
+        {cart.map((element) => (
+          <Product key={element._id}>
+            <ImageAndText>
               <Img src={element.imageSrc} />
               <DivText>
                 <Text>{element.name}</Text>
@@ -62,28 +63,48 @@ const Cart = () => {
                 <Text>{element.body_location}</Text>
                 <Text>{element.price}</Text>
               </DivText>
+            </ImageAndText>
+
+            <Actions>
              
+              <CartAdjuster message={"Adjust Cart"} element={element} />
               <RemoveFromCart onClick={() => handleCart(element)}>
                 Remove from Cart
               </RemoveFromCart>
-              <CartAdjuster message={"Adjust Cart"} element={element} />
-            </Product>
-          ))}
-        </Wrapper>
-      )}
-      <CheckoutWrapper onClick={() => navigate("/checkout")}>
-        checkout now!
-      </CheckoutWrapper>
-    </div>
+            </Actions>
+          </Product>
+        ))}
+      </Wrapper>
+    )}
+    <CheckoutWrapper onClick={() => navigate("/checkout")}>
+      checkout now!
+    </CheckoutWrapper>
+  </div>
   );
 };
+
+const ImageAndText = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Actions = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: auto;
+  padding-top: 140px;
+`;
 
 const DivText = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const Text = styled.p``;
+const Text = styled.p`
+
+font-family: 'Righteous', cursive;
+`;
 
 const YourCart = styled.h1`
   left: 0;
@@ -97,6 +118,8 @@ const RemoveFromCart = styled.button`
     background-color: lightblue;
   }
   cursor: pointer;
+  transition: all ease 400ms;
+  margin-top: 80px;
 `;
 
 const Img = styled.img`
