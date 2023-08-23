@@ -47,14 +47,20 @@ function Header() {
         </CategoryWrapper>
         <BodyWrapper>
           {bodyLocations.map((element) => {
-            // return (
-            // <Category key={element} onClick={() => navigate(`/bodylocations/${element.toLowerCase()}`)} >
-            //     {element}
-            //   </Category>
-            //);
-            // for this, need endpoint /bodylocations/:bodylocation
-            // where :bodylocation is "Wrist", "Arms", "Head", "Chest", "Hands", "Neck", "Waist", "Torso""
-            return <BodyType key={element}>{element}</BodyType>;
+            return (
+              <Category
+                key={element}
+                onClick={() =>
+                  navigate(`/bodyLocation/${element.toLowerCase()}`)
+                }
+              >
+                {element}
+              </Category>
+              //);
+              // for this, need endpoint /bodylocations/:bodylocation
+              // where :bodylocation is "Wrist", "Arms", "Head", "Chest", "Hands", "Neck", "Waist", "Torso""
+              //return <BodyType key={element}>{element}</BodyType>;
+            );
           })}
         </BodyWrapper>
       </SortWrapper>

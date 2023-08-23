@@ -7,6 +7,7 @@ import Checkout from "./Checkout";
 import Confirmation from "./Confirmation";
 import styled from "styled-components";
 import Category from "./Category";
+import BodyLocation from "./BodyLocation";
 
 function App() {
   useEffect(() => {}, []);
@@ -20,6 +21,10 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/categories/:category" element={<Category />} />
+          <Route
+            path="/bodyLocation/:body_location"
+            element={<BodyLocation />}
+          />
           <Route path="/confirmation" element={<Confirmation />} />
         </Routes>
       </Wrapper>
