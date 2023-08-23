@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-function HomePage() {
+// function HomePage() {
+  const HomePage = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -55,7 +56,7 @@ function HomePage() {
         return (
           <Product key={element._id}>
             <Img src={element.imageSrc} />
-            <p>{element.name}</p>
+            <ItemName>{element.name}</ItemName>
             <Price>{element.price}</Price>
             <Stock>{element.numInStock} left in stock!</Stock>
             {element.numInStock !== 0 ? (
@@ -70,26 +71,40 @@ function HomePage() {
   );
 }
 
+const ItemName = styled.div`
+  font-family: 'Righteous', cursive;
+  font-size: 14px;
+  padding-top: 10px;
+`
+
 const AddToCart = styled.button`
   background-color: blue;
   color: white;
   &:hover {
-    background-color: lightgoldenrodyellow;
+    background-color: lightblue;
   }
   cursor: pointer;
+  border: none;
+  padding: 20px;
+  transition: all ease 400ms;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 `;
 
 const Stock = styled.p`
   font-size: 12px;
+  font-family: 'PT Serif', serif;
+
 `;
 
 const Price = styled.p`
   font-size: 20px;
   font-weight: bold;
+  font-family: 'Righteous', cursive;
 `;
 
 const Product = styled.div`
-  border: solid 2px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border: solid darkblue 2px;
   display: flex;
   margin: 20px;
   width: 400px;
