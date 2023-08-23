@@ -3,139 +3,117 @@ import styled from "styled-components";
 
 const CartAdjuster = (message, element) => {
 
-  const currentItem = message.element
+  const [currentItem, setCurrentItem] = useState([]);
+  const [howManyInCart, setHowManyInCart] = useState("");
+  //const currentItem = message.element;
+  
+  useEffect(() => {
+    setCurrentItem(message.element);
+    setHowManyInCart(message.element.howManyInCart);
+  }, []);
 
   // handle plus and minus buttons
-  const handleDecrement = () => {
+  const handleDecrement = (currentItem) => {
     // if the cart is at 1, do nothing
     // else handle Remove Item
     console.log("decreasing...")
-    currentItem.numInCart !== 1 ? handleRemoveItem() : cartMinimum();    
+    currentItem.numInCart !== 1 ? handleRemoveItem(currentItem) : cartMinimum();    
   }
 
-  const handleIncrement = () => {
+  const handleIncrement = (currentItem) => {
     // if there's no stock, don't add.
     // else handle Add Item
+    console.log("handleIncrement, currentItem:", currentItem);
     console.log("increasing...");
-    currentItem.numInStock !== 0 ? handleAddItem() : noStock();
+    currentItem.numInStock !== 0 ? handleAddItem(currentItem) : noStock();
   }
 
   // handle db updates
-  const handleAddItem = async (element) => {
+  const handleAddItem = async (currentItem) => {
     // add item to Cart
     // db: users collection: this item's numInCart +1
-    // db: items collection: this item's numInStock -1
-    // 
-    // new endpoint /update-cart/increment
-    // will update both
+    // db: items collection: this item's numInStock -1   
+    console.log("handleAddItem, element:", currentItem);
 
+    const type = "increment";
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({element})
+      body: JSON.stringify({
+        currentItem,
+        type: 'increment'
+      }),      
     };
     try {
       const response = await fetch("/update-cart/increment", requestOptions);
       if (response.ok) {
         const data = await response.json();
-        console.log("Cart updated successfully:", data);
+        console.log("Cart incremented successfully:", data);
         // setRefreshCart(true);
       } else {
-        console.error("Failed to update cart", response.statusText);
+        console.error("Failed to increment cart", response.statusText);
       }
     } catch (error) { 
-      console.error("Error updating cart:", error);
+      console.error("Error inrementing cart:", error);
     }
 
       // might need to set this up like Cart to make it refresh
   }
 
-  const handleRemoveItem = () => {
+  const handleRemoveItem = async (currentItem) => {
+
+    console.log("currentItem:", currentItem);
     // remove item from Cart
     // db: users collection: this item's numInCart -1
-    // db: items collection: this item's numInStock + 1
-    //
-    // new endpoint /update-cart/decrement
-    // this will update both 
+    // db: items collection: this item's numInStock + 1   
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        currentItem,
+        type: 'decrement'
+      }),      
+    };
+    try {
+      const response = await fetch("/update-cart/decrement", requestOptions);
+      console.log("response:", response);
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Cart decremented successfully:", data);
+        // setRefreshCart(true);
+      } else {
+        console.error("Failed to decrement cart", response.statusText);
+      }
+    } catch (error) { 
+      console.error("Error decrementing cart:", error);
+    }
+
+      // might need to set this up like Cart to make it refresh
+    
   }
 
   const noStock = () => {
-    // display message "No more of this item in stock"
+    console.log("No more of this item in stock!");
   }
 
   const cartMinimum = () => {
-  // display message "Use Remove from Cart if you wish to remove the item".
-  }
+  console.log("Use Remove from Cart if you wish to remove the item!");
+    
+}
 
-  // Q: how can I use the same new endpoint, /update-cart
-  // to perform both +1 and -1 to cart?
-  // what if it was /update-cart/:type
-  // type = "increment" or "decrement"
+  
+  
 
-  // to add
-  // in index.js, new REST endpoint:
-  // .post("/update-cart/:type", updateCart)
-  // and
-  // exports = .. updateUser
-
-  // in handlers.js, new function:
-  // const updateCart = async (req, res) => { 
-  //  const type = useParams();
-  //  const element = req.body;
-  //   if (!element) {  
-  //     return res.status(400).json({ status: 400, message: "Data not found" });
-  //   }
-  //   const client = new MongoClient(MONGO_URI, options);
-  //   try {
-  //     await client.connect();
-  //     const dbName = "ecommerce";
-  //     const db = client.db(dbName);
-      
-  //     switch(type) {
-  //       case "increment":
-  //         // code block
-  //         await db
-  //         .collection("users")
-  //         .updateOne({ _id: element.element._id }, { $inc: { numInCart: +1 } });
-          
-  //         await db
-  //         .collection("items")
-  //         .updateOne({ _id: element.element._id }, { $inc: { numInStock: -1 } });
-  //         break;
-  //       case "decrement":
-  //         // code block
-  //         await db
-  //         .collection("users")
-  //         .updateOne({ _id: element.element._id }, { $inc: { numInCart: -1 } });
-          
-  //         await db
-  //         .collection("items")
-  //         .updateOne({ _id: element.element._id }, { $inc: { numInStock: +1 } });
-  //         break;
-  //       default:
-  //         // code block
-  //     }
-           
-      
-  //     client.close();
-  //     return res.status(201).json({ status: 201, message: "success", result });
-  //   } catch (err) {
-  //     res.status(500).json({ status: 500, message: err.message });
-  //   }
-  // };
-
-  useEffect(() => {
-
-  }, []);
+ 
 
   return (
     <>
     {/* this amount will be dynamic also */}
-    <Message>Amount in Cart: 1</Message>   
+    <Message>{currentItem.numInCart} in cart.</Message>   
     <Wrapper>              
-        <Button onClick={handleDecrement}>-</Button>        
+        <Button onClick={() => handleDecrement(currentItem)}>-</Button>        
         <Message>{message.message}</Message>
-        <Button onClick={handleIncrement}>+</Button>
+        <Button onClick={() => handleIncrement(currentItem)}>+</Button>
     </Wrapper>
     </>
   );
