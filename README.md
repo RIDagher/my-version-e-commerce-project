@@ -1,4 +1,4 @@
-# Wearables E-Commerce Project
+# Wearables E-Commerce Project!
 
 You've and your team have been hired by a client to create an e-commerce website that will showcase wearable technology. The client believes that wearable tech is the way of the future!
 
